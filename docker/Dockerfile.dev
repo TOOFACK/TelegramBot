@@ -1,0 +1,42 @@
+FROM python:3.9  
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Moscow
+
+ARG POETRY_VERSION
+ARG POETRY_HOME=/etc/poetry
+
+
+RUN apt-get update && apt-get -y install tzdata
+
+RUN echo "Installing apt packages..." \
+    apt-get update \
+    && apt-get install -y ssh \
+    apt-utils \
+    software-properties-common \
+    build-essential \
+    ca-certificates \
+    lsb-release \
+    rsync \
+    tar \
+    unzip \
+    curl \
+    git \
+    vim \
+    apt-transport-https\
+    nano \
+    sudo 
+
+
+RUN echo "Cleaning apt packages..."\
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /etc/poetry
+
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=${POETRY_HOME} POETRY_VERSION=${POETRY_VERSION}  python3 -
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV POETRY_HOME=${POETRY_HOME}
+ENV PATH=${POETRY_HOME}/bin:$PATH

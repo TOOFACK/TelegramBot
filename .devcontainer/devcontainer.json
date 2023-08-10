@@ -1,0 +1,27 @@
+{
+    "image": "telegram_bot_dev",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash"
+                    }
+                }
+            },
+            "extensions": [
+        "ms-python.python",
+        "njpwerner.autodocstring",
+        "mhutchie.git-graph",
+        "charliermarsh.ruff",
+        "redhat.vscode-yaml",
+        "ms-python.vscode-pylance",
+        "ms-python.isort"
+      ]
+        }
+    },
+"runArgs": [
+        "--network", "host",
+        "--shm-size", "16gb"
+    ]
+}
