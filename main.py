@@ -26,7 +26,7 @@ webhook_path = f"/{TOKEN_API}"
 
 
 async def set_webhook():
-    webhook_uri = f"{Configurator_yml().get_bot_token()}{webhook_path}"
+    webhook_uri = f"{Configurator_yml().get_domen()}{webhook_path}"
     await bot.set_webhook(webhook_uri)
 
 
