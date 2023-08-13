@@ -87,6 +87,6 @@ if __name__ == "__main__":
     app.on_startup.append(on_startup)
     web.run_app(
         app,
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=8000,
     )
