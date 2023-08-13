@@ -26,7 +26,7 @@ webhook_path = f"/{TOKEN_API}"
 
 
 async def set_webhook():
-    webhook_uri = f"https://9b3b-5-18-168-68.ngrok-free.app{webhook_path}"
+    webhook_uri = f"{Configurator_yml().get_bot_token()}{webhook_path}"
     await bot.set_webhook(webhook_uri)
 
 
@@ -77,8 +77,16 @@ dp.register_message_handler(
 dp.register_message_handler(service.send_passion_post, commands={"tell_about_passion"})
 dp.register_message_handler(service.send_project_info, commands={"project_info"})
 
-if __name__ == "__main__":
-    from aiogram import executor
+# if __name__ == "__main__":
+#     from aiogram import executor
 
-    # set_bd()
-    executor.start_polling(dp, skip_updates=True)
+#     # set_bd()
+#     executor.start_polling(dp, skip_updates=True)
+
+if __name__ == "__main__":
+    app.on_startup.append(on_startup)
+    web.run_app(
+        app,
+        host="0.0.0.0",
+        port=8000,
+    )
