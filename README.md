@@ -27,9 +27,8 @@ bash docker/docker_build_dev.sh Poetry version, Image Name
 все зависмости можно найти в requirements.txt, либо pypropject.toml
 
 ## Inforamtion
-Для сокрытия личных данных, использовались yaml конфиги и класс Configurator_yml, все содержится в /conf. В качестве бд использовался PostgreSQL, для миграции использовался alembic, деплой производится с помощью docker compose.
+Для сокрытия личных данных, использовались yaml конфиги и класс Configurator_yml, все содержится в /conf. В качестве бд использовался PostgreSQL, для миграции использовался alembic, деплой производится с помощью docker compose. Перед запуском docker-compose, нужно экспортнуть POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD.
 
 UPD. Не успел до дедлайна реализовать webhook, проблемы с настройкой nginx конфигурации. 
-
 
 
