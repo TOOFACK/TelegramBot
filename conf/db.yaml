@@ -1,0 +1,16 @@
+base:
+  schema: 
+  password: 
+  user: 
+  ip: 
+  port: 
+  bd_name: 
+
+data:
+  last_selfie:
+  photo_from_highschool : 
+  voice_gpt : 
+  nosql_vs_sql : 
+  love_story : 
+  repo_url: 
+  passion_story:   

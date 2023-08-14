@@ -4,6 +4,7 @@ from re import Match
 import pyrootutils
 from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.filters import Text
+from aiogram.utils.executor import start_webhook
 from aiohttp import web
 from sqlalchemy.dialects.postgresql import insert
 
@@ -12,51 +13,21 @@ from conf.config import Configurator_yml
 pyrootutils.setup_root(__file__, indicator=".project", pythonpath=True)
 from src.service.service import *
 
-app = web.Application()
-
-TOKEN_API = Configurator_yml().get_bot_token()
-bot = Bot(token=TOKEN_API)
-
-Bot.set_current(bot)
-
+token = Configurator_yml().get_bot_token()
+bot = Bot(token)
 dp = Dispatcher(bot)
+WEBHOOK_DOMAIN = Configurator_yml().get_domen()
+WEBAPP_HOST = "127.0.0.1"
+WEBAPP_PORT = "8000"
 
 
-webhook_path = f"/{TOKEN_API}"
+async def on_startup(dp):
+    await bot.set_webhook(WEBHOOK_DOMAIN, drop_pending_updates=True)
 
 
-async def set_webhook():
-    webhook_uri = f"{Configurator_yml().get_domen()}{webhook_path}"
-    await bot.set_webhook(webhook_uri)
+async def on_shutdown(dp):
+    await bot.delete_webhook()
 
-
-async def on_startup(_):
-    await set_webhook()
-
-
-async def handle_webhook(request):
-    url = str(request.url)
-    index = url.rfind("/")
-    token = url[index + 1 :]
-
-    if token == TOKEN_API:
-        request_data = await request.json()
-        update = types.Update(**request_data)
-        await dp.process_update(update)
-        return web.Response()
-
-    else:
-        return web.Response(status=403)
-
-
-app.router.add_post(f"/{TOKEN_API}", handle_webhook)
-# if __name__ == "__main__":
-#     app.on_startup.append(on_startup)
-#     web.run_app(
-#         app,
-#         host="0.0.0.0",Settings
-#         port=8000,
-#     )
 
 service = Service(bot)
 
@@ -70,23 +41,20 @@ dp.register_message_handler(service.send_how_gpt_work, commands={"explain_GPT"})
 dp.register_message_handler(service.explain_sql_nosql, commands={"sql_vs_nosql"})
 dp.register_message_handler(service.send_love_story, commands={"love_story"})
 
-dp.register_message_handler(
-    lambda message: all_msg(bot, message), content_types={"voice"}
-)
 
 dp.register_message_handler(service.send_passion_post, commands={"tell_about_passion"})
 dp.register_message_handler(service.send_project_info, commands={"project_info"})
 
-# if __name__ == "__main__":
-#     from aiogram import executor
-
-#     # set_bd()
-#     executor.start_polling(dp, skip_updates=True)
-
 if __name__ == "__main__":
-    app.on_startup.append(on_startup)
-    web.run_app(
-        app,
-        host="127.0.0.1",
-        port=8000,
-    )
+    from aiogram import executor
+
+    executor.start_polling(dispatcher=dp, skip_updates=True)
+    # start_webhook(
+    #     dispatcher=dp,
+    #     webhook_path="",
+    #     on_startup=on_startup,
+    #     on_shutdown=on_shutdown,
+    #     skip_updates=True,
+    #     host=WEBAPP_HOST,
+    #     port=WEBAPP_PORT,
+    # )
