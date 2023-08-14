@@ -4,11 +4,11 @@ services:
   postgres:
     image: postgres:14
     ports:
-      - "5432"
+      - "PORT"
     environment:
-      POSTGRES_DB: 'pavel'
-      POSTGRES_USER: 'pavel'
-      POSTGRES_PASSWORD: 'pavel'
+      POSTGRES_DB: 
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: 
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - "psql_data:/var/lib/postgresql/data"
