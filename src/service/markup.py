@@ -1,5 +1,6 @@
 from aiogram import types
 
+
 class ReplyMarkup:
     def __init__(self) -> None:
         self.keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
